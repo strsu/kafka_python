@@ -1,5 +1,6 @@
 ---
 version: '3'
+name: kafka
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
