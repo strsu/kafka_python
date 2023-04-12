@@ -1,0 +1,6 @@
+manimlib
+manimce
+kafka-python
+kafka-schema-registry
+confluent-kafka
+six

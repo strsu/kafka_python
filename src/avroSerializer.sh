@@ -1,0 +1,1 @@
+python3 avroSerializer.py -b broker:29092 -s http://schemaregistry:8085

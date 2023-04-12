@@ -3,7 +3,7 @@ import json
 
 consumer = KafkaConsumer(
     "topic",
-    bootstrap_servers=["localhost:9092"],
+    bootstrap_servers=["broker:29092"],
     auto_offset_reset="earliest",
     enable_auto_commit=True,
     group_id="my_group",
@@ -14,4 +14,5 @@ consumer = KafkaConsumer(
 while True:
     for msg in consumer:
         value = msg.value
-        print(f"time: {value['TEST']['Time']}")
+        print(value)
+        print(f"time: {value['TEST']['Text']}")
