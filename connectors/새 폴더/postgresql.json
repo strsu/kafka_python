@@ -1,0 +1,18 @@
+{
+    "name": "dbz-test-connector",
+    "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "database.hostname": "192.168.1.243",
+        "database.port": "54321",
+        "database.user": "postgres",
+        "database.password": "postgres",
+        "database.dbname": "postgres",
+        "table.include.list": "soccer",
+        "tasks.max": "1",
+        "topic.prefix": "my_connect_",
+        "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "key.converter.schemas.enable": "false",
+        "value.converter.schemas.enable": "false"
+    }
+}

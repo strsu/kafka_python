@@ -72,6 +72,7 @@ services:
     ports:
       - 8083:8083
     depends_on:
+      - zookeeper
       - broker
       - schemaregistry
     environment:
@@ -98,7 +99,9 @@ services:
       - -c
       - |
         confluent-hub install --no-prompt debezium/debezium-connector-mysql:latest
+        confluent-hub install --no-prompt debezium/debezium-connector-postgresql:2.1.4
         confluent-hub install --no-prompt confluentinc/kafka-connect-datagen:0.4.0
+        confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:10.7.1
         /etc/confluent/docker/run
 
   testing:
