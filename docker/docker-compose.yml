@@ -20,6 +20,28 @@ services:
       KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schemaregistry:8085
       KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: first
       KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://kafka-connect:8083
+    
+  akhq:
+    image: tchiotludo/akhq:latest
+    container_name: akhq
+    environment:
+      AKHQ_CONFIGURATION: |
+        akhq:
+          connections:
+            docker-kafka-server:
+              properties:
+                bootstrap.servers: "PLAINTEXT://broker:29092"
+              schema-registry:
+                url: "http://schemaregistry:8085"
+              connect:
+                - name: "connect"
+                  url: "http://kafka-connect:8083"
+
+    ports:
+      - 4445:8080
+    links:
+      - broker
+      - schemaregistry
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
