@@ -91,7 +91,7 @@ services:
   kafka-connect:
     build:
       context: .
-      dockerfile: connector.Dockerfile
+      dockerfile: Dockerfile.connector
     container_name: kafka-connect
     ports:
       - 8083:8083
@@ -132,6 +132,8 @@ services:
     volumes:
       - ../streaming:/app
     env_file: .env-faust
+    ports:
+      - 6066:6066
     command:
       - bash
       - -c
@@ -141,7 +143,7 @@ services:
   testing:
     build:
       context: .
-      dockerfile: test.Dockerfile
+      dockerfile: Dockerfile.test
     container_name: test
     volumes:
       - ../src:/opt
