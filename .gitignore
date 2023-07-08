@@ -1,2 +1,9 @@
+### python
 *.pyc
-camel-*
+
+### connect
+*.jar
+*.tar.*
+
+### etc
+.DS_Store
