@@ -1,0 +1,2 @@
+faust-streaming
+faust-streaming[rocksdb]

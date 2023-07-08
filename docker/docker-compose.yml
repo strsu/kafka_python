@@ -104,6 +104,20 @@ services:
         confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:10.7.1
         /etc/confluent/docker/run
 
+  kafka-streaming:
+    build:
+      context: .
+      dockerfile: Dockerfile.faust
+    container_name: streaming
+    volumes:
+      - ../streaming:/app
+    env_file: .env-faust
+    command:
+      - bash
+      - -c
+      - |
+        cd movie && python -m app.worker worker -l info
+
   testing:
     build:
       context: .

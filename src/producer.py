@@ -21,9 +21,9 @@ producer = KafkaProducer(
     value_serializer=lambda x: json.dumps(x).encode("utf-8"),
 )
 
-for i in range(100):
+for i in range(10):
     data = {"TEST": {"Text": "T" * 10, "Time": str(datetime.now())}}
-    producer.send("topic", value=data).add_callback(on_send_success).add_errback(
+    producer.send("test", value=data).add_callback(on_send_success).add_errback(
         on_send_error
     )
 producer.flush()  # block until all async messages are sent
