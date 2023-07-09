@@ -12,7 +12,13 @@ batch_topic = faust_app.topic("finnhub.batch", replicas=1)
 
 @faust_app.agent(origin_topic)
 async def agent(stream):
-    async for event in stream:
-        # event2 = [event_dict["after"] for event_dict in event]
-        print(event)
+    async for event in stream.take(5, within=10):
+        """
+           max — the maximum number of messages in the batch, 5개를 가져온다.
+        within — timeout for waiting to receive max_ messages, 최대 10초 까지만 기다린다.
+
+        이렇게 배치로 갖오면 5개의 메세지가 하나의 Topic으로 들어간다.
+
+        """
+        # print(event)
         await batch_topic.send(value=event)

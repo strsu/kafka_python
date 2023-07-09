@@ -1,2 +1,6 @@
 faust-streaming
 faust-streaming[rocksdb]
+kafka-python
+finnhub-python
+nest_asyncio
+pytz
