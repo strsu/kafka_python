@@ -1,0 +1,49 @@
+version: '3.7'
+services:
+
+  node-exporter:
+    image: prom/node-exporter
+    ports:
+      - 9100:9100
+    #network_mode: "host" # 컨테이너에서 호스트에 떠있는 프로세스로 접근이 안되어 NETWORK MODE를 HOST로 설정하였습니다.
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+
+  prometheus:
+    image: prom/prometheus:v2.16.0
+    container_name: prometheus
+    user: root
+    #network_mode: "host" # 컨테이너에서 호스트에 떠있는 프로세스로 접근이 안되어 NETWORK MODE를 HOST로 설정하였습니다.
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+
+  pushgateway:
+    image: prom/pushgateway:latest
+    container_name: pushgateway
+    restart: always
+    ports:
+      - 9091:9091
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:6.6.2
+    environment:
+      - GF_SECURITY_ADMIN_USER=user1
+      - GF_SECURITY_ADMIN_PASSWORD=user1
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - ./data/grafana/data:/var/lib/grafana
+      - ./data/grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - 9900:3000
+    depends_on:
+      - prometheus

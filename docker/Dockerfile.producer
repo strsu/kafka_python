@@ -1,0 +1,23 @@
+FROM python:3.8
+
+# Supervisor 설치
+RUN apt-get update && apt-get install -y supervisor
+
+# Supervisor 설정 파일 복사
+COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+COPY ./requirements_producer.txt /requirements.txt
+RUN pip install -r ./requirements.txt
+
+# COPY source code
+#ADD ./src/ /apps/
+
+WORKDIR /apps/
+
+# Supervisor 실행
+CMD ["supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
+
+# docker build -t 이미지이름 -f Dockerfile.producer .
+# docker build -t producer -f Dockerfile.producer .
+
+# docker run -it --name producer -v D:\develop\GitHub\kafka_python\src:/apps producer /bin/bash
