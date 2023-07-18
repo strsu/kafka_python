@@ -4,3 +4,5 @@ kafka-python
 finnhub-python
 nest_asyncio
 pytz
+psycopg2-binary
+prometheus-client

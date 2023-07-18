@@ -1,0 +1,1 @@
+docker exec streaming pkill --signal TERM -f 'python'
