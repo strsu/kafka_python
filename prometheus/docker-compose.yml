@@ -5,7 +5,7 @@ services:
     image: prom/node-exporter
     ports:
       - 9100:9100
-    #network_mode: "host" # 컨테이너에서 호스트에 떠있는 프로세스로 접근이 안되어 NETWORK MODE를 HOST로 설정하였습니다.
+    user: root
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -15,16 +15,36 @@ services:
       - '--path.rootfs=/rootfs'
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+  
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    privileged: true
+    ports:
+      - 8088:8080
+    volumes:
+      - /:/rootfs:ro
+      #- /var/run:/var/run:rw
+      - /var/run/docker.sock:/var/run/docker.sock:rw # 위에 /var/run:/var/run:rw 대신에 이거 마운트 하면..
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro  
+    depends_on:
+      - redis
+  
+  redis:
+    image: redis:7.0.7
+    container_name: redis
 
   prometheus:
     image: prom/prometheus:v2.16.0
     container_name: prometheus
     user: root
-    #network_mode: "host" # 컨테이너에서 호스트에 떠있는 프로세스로 접근이 안되어 NETWORK MODE를 HOST로 설정하였습니다.
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - 9090:9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
 
   pushgateway:
     image: prom/pushgateway:latest
