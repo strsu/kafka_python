@@ -1,0 +1,15 @@
+{
+  "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+  "tasks.max": "1",
+  "connection.url": "jdbc:postgresql://host.docker.internal:5443/sink_db",
+  "connection.user": "postgres",
+  "connection.password": "postgres",
+  "auto.create": "false",
+  "auto.evolve": "true",
+  "insert.mode": "upsert",
+  "pk.mode": "record_key",
+  "delete.enabled": "true",
+  "topics": "users,posts,comments",
+  "errors.deadletterqueue.topic.name": "dlq_jdbc_sink_errors",
+  "errors.deadletterqueue.topic.replication.factor": "1"
+}

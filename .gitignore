@@ -7,3 +7,8 @@
 
 ### etc
 .DS_Store
+
+### cdc
+kafka-4/cdc/data/
+kafka-4/connectors/
+!kafka-4/connectors/*.tar.gz

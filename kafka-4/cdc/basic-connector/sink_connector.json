@@ -1,0 +1,17 @@
+{
+  "connector.class": "io.debezium.connector.jdbc.JdbcSinkConnector",
+  "tasks.max": "1",
+  "connection.url": "jdbc:postgresql://host.docker.internal:5443/sink_db",
+  "connection.username": "postgres",
+  "connection.password": "postgres",
+  "auto.create": "false",
+  "auto.evolve": "true",
+  "insert.mode": "upsert",
+  "primary.key.mode": "record_key",
+  "delete.enabled": "true",
+  "schema.evolution": "basic",
+  "topics": "users,posts,comments",
+  "errors.tolerance": "all",
+  "errors.log.enable": "true",
+  "errors.log.include.messages": "true"
+}

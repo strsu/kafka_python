@@ -1,0 +1,42 @@
+services:
+  source:
+    image: postgres:15.4
+    # restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: source_db
+    ports:
+      - "5442:5432"
+    volumes: # 추가
+      - ./data/source_db:/var/lib/postgresql/data
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
+      - "-c"
+      - "max_replication_slots=10"
+      - "-c"
+      - "max_wal_senders=10"
+      - "-c"
+      - "hot_standby=on" # 원격 서버가 로그를 스트리밍으로 읽을 수 있도록
+
+  sink:
+    image: postgres:15.4
+    # restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: sink_db
+    ports:
+      - "5443:5432"
+    volumes: # 추가
+      - ./data/sink_db:/var/lib/postgresql/data
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
+      - "-c"
+      - "max_replication_slots=10"
+      - "-c"
+      - "max_wal_senders=10"
